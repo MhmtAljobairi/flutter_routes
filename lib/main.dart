@@ -1,6 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:helloworldfullter/gridview_page.dart';
 import 'package:helloworldfullter/home_page.dart';
+import 'package:helloworldfullter/listview_page.dart';
 import 'package:helloworldfullter/model.dart';
 
 void main() {
@@ -34,10 +36,16 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.orange),
       // home: MyFirstStatefulWidget(),
-      initialRoute: "/login",
-      routes: {
-        "/home": (context) => HomePage(),
-        "/login": (context) => MyFirstStatefulWidget(),
+      initialRoute: "/",
+      onGenerateRoute: (settings) {
+        var routes = {
+          // "/listview": (context) => ListViewPage(),
+          "/": (context) => GridViewPage(),
+          "/home": (context) => HomePage(settings.arguments as User),
+          "/login": (context) => MyFirstStatefulWidget(),
+        };
+        WidgetBuilder builder = routes[settings.name]!;
+        return MaterialPageRoute(builder: (ctx) => builder(ctx));
       },
     );
   }
@@ -130,21 +138,16 @@ class _MyFirstStatefulWidgetState extends State<MyFirstStatefulWidget> {
       String email = emailController.text;
       String password = passwordController.text;
 
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => HomePage(
-      //               email: email,
-      //             )));
+      User user = User(email: email, password: password);
 
-      // dynamic result = await Navigator.pushNamed(context, "/home",
-      //     arguments: User(email: email, password: password));
+      // App 1
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomePage(user)));
 
-      // dynamic result = await Navigator.pushNamed(context, "/home",
-      //     arguments: {"email": email, "password": password});
+      // App 2
+      dynamic result =
+          await Navigator.pushNamed(context, "/home", arguments: user);
 
-      dynamic result = await Navigator.pushNamed(context, "/home",
-          arguments: [email, password]);
       print(result);
     }
   }

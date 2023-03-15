@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:helloworldfullter/main.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  User user;
+  HomePage(this.user, {super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -12,8 +13,6 @@ class _HomePageState extends State<HomePage> {
   bool visible = true;
   @override
   Widget build(BuildContext context) {
-    dynamic user = ModalRoute.of(context)!.settings.arguments as dynamic;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home Page"),
@@ -22,7 +21,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Hello ${user['email'].toString()}"),
+          Text("Hello ${widget.user.toString()}"),
           Visibility(
               visible: visible,
               child: ElevatedButton(
