@@ -1,9 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:helloworldfullter/bottom_tabs_page.dart';
+import 'package:helloworldfullter/custom_tab_page.dart';
 import 'package:helloworldfullter/gridview_page.dart';
 import 'package:helloworldfullter/home_page.dart';
 import 'package:helloworldfullter/listview_page.dart';
 import 'package:helloworldfullter/model.dart';
+import 'package:helloworldfullter/tab_page.dart';
 
 void main() {
   Model model = Model(
@@ -40,7 +43,10 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         var routes = {
           // "/listview": (context) => ListViewPage(),
-          "/": (context) => GridViewPage(),
+          "/gridView": (context) => GridViewPage(),
+          "/": (context) => BottomTabsPage(),
+          "/tabs": (context) => TabPage(),
+          "/customTab": (context) => CustomTabPage(),
           "/home": (context) => HomePage(settings.arguments as User),
           "/login": (context) => MyFirstStatefulWidget(),
         };
