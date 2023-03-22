@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:helloworldfullter/bottom_tabs_page.dart';
 import 'package:helloworldfullter/custom_tab_page.dart';
+import 'package:helloworldfullter/fake_api_page.dart';
 import 'package:helloworldfullter/gridview_page.dart';
 import 'package:helloworldfullter/home_page.dart';
 import 'package:helloworldfullter/listview_page.dart';
@@ -44,7 +45,8 @@ class MyApp extends StatelessWidget {
         var routes = {
           // "/listview": (context) => ListViewPage(),
           "/gridView": (context) => GridViewPage(),
-          "/": (context) => BottomTabsPage(),
+          "/": (context) => FakeApiPage(),
+          "/bottomTab": (context) => BottomTabsPage(),
           "/tabs": (context) => TabPage(),
           "/customTab": (context) => CustomTabPage(),
           "/home": (context) => HomePage(settings.arguments as User),
