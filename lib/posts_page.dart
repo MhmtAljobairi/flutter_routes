@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:helloworldfullter/controllers/post_controller.dart';
 import 'package:helloworldfullter/models/post.dart';
 
-class FakeApiPage extends StatefulWidget {
-  const FakeApiPage({super.key});
+class PostsPage extends StatefulWidget {
+  const PostsPage({super.key});
 
   @override
-  State<FakeApiPage> createState() => _FakeApiPageState();
+  State<PostsPage> createState() => _PostsPageState();
 }
 
-class _FakeApiPageState extends State<FakeApiPage> {
+class _PostsPageState extends State<PostsPage> {
   List<Post> _posts = [];
 
   @override
@@ -34,6 +34,12 @@ class _FakeApiPageState extends State<FakeApiPage> {
         appBar: AppBar(
           title: const Text("Posts"),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, "/postForm");
+          },
+          child: Icon(Icons.add),
+        ),
         body: _posts.isEmpty
             ? const Center(
                 child: CircularProgressIndicator(),
@@ -47,6 +53,10 @@ class _FakeApiPageState extends State<FakeApiPage> {
                 itemBuilder: (context, index) => ListTile(
                       title: Text(_posts[index].title),
                       subtitle: Text(_posts[index].body),
+                      onTap: () {
+                        Navigator.pushNamed(context, "/postDetails",
+                            arguments: _posts[index].id);
+                      },
                     )));
   }
 }

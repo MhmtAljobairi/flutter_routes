@@ -1,12 +1,14 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:helloworldfullter/bottom_tabs_page.dart';
 import 'package:helloworldfullter/custom_tab_page.dart';
-import 'package:helloworldfullter/fake_api_page.dart';
+import 'package:helloworldfullter/post_form_page.dart';
+import 'package:helloworldfullter/posts_page.dart';
 import 'package:helloworldfullter/gridview_page.dart';
 import 'package:helloworldfullter/home_page.dart';
-import 'package:helloworldfullter/listview_page.dart';
 import 'package:helloworldfullter/model.dart';
+import 'package:helloworldfullter/post_details_page.dart';
 import 'package:helloworldfullter/tab_page.dart';
 
 void main() {
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      builder: EasyLoading.init(),
       theme: ThemeData(
           // useMaterial3: true,
           // This is the theme of your application.
@@ -44,8 +47,11 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         var routes = {
           // "/listview": (context) => ListViewPage(),
+          "/postDetails": (context) =>
+              PostDetailsPage(settings.arguments as int),
           "/gridView": (context) => GridViewPage(),
-          "/": (context) => FakeApiPage(),
+          "/": (context) => PostsPage(),
+          "/postForm": (context) => PostFormPage(),
           "/bottomTab": (context) => BottomTabsPage(),
           "/tabs": (context) => TabPage(),
           "/customTab": (context) => CustomTabPage(),
