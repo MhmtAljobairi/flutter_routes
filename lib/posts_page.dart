@@ -10,22 +10,9 @@ class PostsPage extends StatefulWidget {
 }
 
 class _PostsPageState extends State<PostsPage> {
-  List<Post> _posts = [];
-
   @override
   void initState() {
     super.initState();
-    _getAllPosts();
-  }
-
-  _getAllPosts() async {
-    PostController().getAll().then((result) {
-      setState(() {
-        _posts = result;
-      });
-    }).catchError((ex) {
-      print(ex);
-    });
   }
 
   @override
@@ -40,23 +27,34 @@ class _PostsPageState extends State<PostsPage> {
           },
           child: Icon(Icons.add),
         ),
-        body: _posts.isEmpty
-            ? const Center(
+        body: FutureBuilder<List<Post>>(
+          future: PostController().getAll(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                  child: Text("There are an error, please try again"));
+            }
+            if (!snapshot.hasData) {
+              return Center(
                 child: CircularProgressIndicator(),
-              )
-            : ListView.separated(
-                itemCount: _posts.length,
-                separatorBuilder: (context, index) => const Padding(
-                      padding: EdgeInsets.only(left: 20, right: 20),
-                      child: Divider(),
-                    ),
-                itemBuilder: (context, index) => ListTile(
-                      title: Text(_posts[index].title),
-                      subtitle: Text(_posts[index].body),
-                      onTap: () {
-                        Navigator.pushNamed(context, "/postDetails",
-                            arguments: _posts[index].id);
-                      },
-                    )));
+              );
+            } else {
+              return ListView.separated(
+                  itemCount: snapshot.data!.length,
+                  separatorBuilder: (context, index) => const Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(),
+                      ),
+                  itemBuilder: (context, index) => ListTile(
+                        title: Text(snapshot.data![index].title),
+                        subtitle: Text(snapshot.data![index].body),
+                        onTap: () {
+                          Navigator.pushNamed(context, "/postDetails",
+                              arguments: snapshot.data![index].id);
+                        },
+                      ));
+            }
+          },
+        ));
   }
 }

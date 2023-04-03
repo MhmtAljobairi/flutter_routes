@@ -9,15 +9,16 @@ import 'package:helloworldfullter/gridview_page.dart';
 import 'package:helloworldfullter/home_page.dart';
 import 'package:helloworldfullter/model.dart';
 import 'package:helloworldfullter/post_details_page.dart';
+import 'package:helloworldfullter/stream_example_page.dart';
 import 'package:helloworldfullter/tab_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
-  Model model = Model(
-    id: 1,
-    email: "m@m.com",
-    name: "Mhmd",
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
-
   runApp(const MyApp());
 }
 
@@ -50,7 +51,8 @@ class MyApp extends StatelessWidget {
           "/postDetails": (context) =>
               PostDetailsPage(settings.arguments as int),
           "/gridView": (context) => GridViewPage(),
-          "/": (context) => PostsPage(),
+          "/posts": (context) => PostsPage(),
+          "/": (context) => StreamExamplePage(),
           "/postForm": (context) => PostFormPage(),
           "/bottomTab": (context) => BottomTabsPage(),
           "/tabs": (context) => TabPage(),

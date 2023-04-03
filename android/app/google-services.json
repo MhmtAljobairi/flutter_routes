@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "748313139067",
+    "project_id": "flutterdotproject",
+    "storage_bucket": "flutterdotproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748313139067:android:439e8147f3f93abdc1cfde",
+        "android_client_info": {
+          "package_name": "com.example.helloworldfullter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748313139067-86lieovhhj6rvol7hugsc36n2mfk91if.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEGSqdUOywNqa2WLfxde1WuJznx9g3OmY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748313139067-86lieovhhj6rvol7hugsc36n2mfk91if.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "748313139067-3m9a6mut21oq046qvc7ck8rdkbcl6294.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.helloworldfullter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

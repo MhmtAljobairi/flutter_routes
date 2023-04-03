@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Post {
   int userId;
   int id;
@@ -11,6 +13,13 @@ class Post {
       required this.body});
 
   factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+        userId: json["userId"] ?? 0,
+        id: json["id"] ?? 0,
+        title: json["title"] ?? "",
+        body: json["body"] ?? "");
+  }
+  factory Post.fromQuery(QueryDocumentSnapshot<Object?> json) {
     return Post(
         userId: json["userId"] ?? 0,
         id: json["id"] ?? 0,
