@@ -1,7 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:helloworldfullter/bottom_tabs_page.dart';
+import 'package:helloworldfullter/controllers/user_controller.dart';
 import 'package:helloworldfullter/custom_tab_page.dart';
 import 'package:helloworldfullter/post_form_page.dart';
 import 'package:helloworldfullter/posts_page.dart';
@@ -47,23 +49,54 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       onGenerateRoute: (settings) {
         var routes = {
+          "/": (context) => PreLoadPage(),
           // "/listview": (context) => ListViewPage(),
           "/postDetails": (context) =>
               PostDetailsPage(settings.arguments as int),
           "/gridView": (context) => GridViewPage(),
           "/posts": (context) => PostsPage(),
-          "/": (context) => StreamExamplePage(),
+          "/stream": (context) => StreamExamplePage(),
           "/postForm": (context) => PostFormPage(),
           "/bottomTab": (context) => BottomTabsPage(),
           "/tabs": (context) => TabPage(),
           "/customTab": (context) => CustomTabPage(),
-          "/home": (context) => HomePage(settings.arguments as User),
+          "/home": (context) => HomePage(),
           "/login": (context) => MyFirstStatefulWidget(),
         };
         WidgetBuilder builder = routes[settings.name]!;
         return MaterialPageRoute(builder: (ctx) => builder(ctx));
       },
     );
+  }
+}
+
+class PreLoadPage extends StatefulWidget {
+  const PreLoadPage({super.key});
+
+  @override
+  State<PreLoadPage> createState() => _PreLoadPageState();
+}
+
+class _PreLoadPageState extends State<PreLoadPage> {
+  @override
+  void initState() {
+    super.initState();
+    _checkLogin();
+  }
+
+  _checkLogin() async {
+    var storage = FlutterSecureStorage();
+    var checker = await storage.containsKey(key: "token");
+    if (checker) {
+      Navigator.pushReplacementNamed(context, "/home");
+    } else {
+      Navigator.pushReplacementNamed(context, "/login");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
 
@@ -115,7 +148,7 @@ class _MyFirstStatefulWidgetState extends State<MyFirstStatefulWidget> {
                     controller: passwordController,
                     obscureText: obscureText,
                     validator: (value) {
-                      if (value == null || value.length < 6) {
+                      if (value == null || value.length < 2) {
                         return "Please enter an valid password";
                       }
                       return null;
@@ -154,17 +187,26 @@ class _MyFirstStatefulWidgetState extends State<MyFirstStatefulWidget> {
       String email = emailController.text;
       String password = passwordController.text;
 
-      User user = User(email: email, password: password);
+      User user = User(email: email, password: password, fullName: "");
+      EasyLoading.show(status: "Loading");
+      UserController().login(user).then((value) {
+        EasyLoading.dismiss();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+      }).catchError((ex) {
+        EasyLoading.dismiss();
+        EasyLoading.showError(ex.toString());
+      });
 
-      // App 1
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage(user)));
+      // // App 1
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => HomePage(user)));
 
-      // App 2
-      dynamic result =
-          await Navigator.pushNamed(context, "/home", arguments: user);
+      // // App 2
+      // dynamic result =
+      //     await Navigator.pushNamed(context, "/home", arguments: user);
 
-      print(result);
+      // print(result);
     }
   }
 }
@@ -172,6 +214,22 @@ class _MyFirstStatefulWidgetState extends State<MyFirstStatefulWidget> {
 class User {
   String email;
   String password;
+  String fullName;
 
-  User({required this.email, required this.password});
+  User({required this.email, required this.password, required this.fullName});
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      email: json["email"],
+      password: json["password"],
+      fullName: json["full_name"],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "email": email,
+      "password": password,
+    };
+  }
 }
