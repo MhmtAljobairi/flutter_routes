@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:helloworldfullter/bottom_tabs_page.dart';
 import 'package:helloworldfullter/controllers/user_controller.dart';
 import 'package:helloworldfullter/custom_tab_page.dart';
+import 'package:helloworldfullter/firestore_crud_page.dart';
 import 'package:helloworldfullter/post_form_page.dart';
 import 'package:helloworldfullter/posts_page.dart';
 import 'package:helloworldfullter/gridview_page.dart';
@@ -49,8 +50,10 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       onGenerateRoute: (settings) {
         var routes = {
-          "/": (context) => PreLoadPage(),
+          // "/": (context) => PreLoadPage(),
           // "/listview": (context) => ListViewPage(),
+
+          "/": (context) => FirestoreCrudPage(),
           "/postDetails": (context) =>
               PostDetailsPage(settings.arguments as int),
           "/gridView": (context) => GridViewPage(),
